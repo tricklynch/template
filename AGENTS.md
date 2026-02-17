@@ -124,6 +124,22 @@ Design and build so people with disabilities and situational limitations can per
 
 ---
 
+## Instructions for agents (task workflow)
+
+When carrying out coding or change tasks, follow these workflow steps so work is traceable, reviewable, and safe to iterate on.
+
+- **Use a pull request (PR) for changes.** Do not merge directly to the main/default branch. Open a branch, make changes, and propose them via a PR so they can be reviewed and integrated in a controlled way.
+- **Commit early and often.** Make small, logical commits with clear messages (what changed and why). This keeps history readable and makes it easier to revert or bisect if needed.
+- **Push changes regularly.** Push your branch to the remote after meaningful commits so work is backed up, visible to others, and ready for CI and review. Do not leave large amounts of unpushed work on a single branch.
+- **Run tests and linter before pushing.** Run the project’s test suite and any lint/format checks locally so the branch is in a passing state before CI runs and before requesting review.
+- **Keep the branch up to date with the target.** Before opening or updating a PR, rebase or merge from the default branch (e.g. `main`) so the branch is current and merge conflicts are minimized.
+- **Use a descriptive branch name.** Name branches so their purpose is clear (e.g. `feature/add-login`, `fix/typo-in-readme`, `docs/update-api`) to make history and PR lists easier to scan.
+- **Write a clear PR description.** In the PR, state what changed, why, and how to verify (steps or checklist). Link to issues or context when relevant so reviewers can evaluate without guessing.
+- **Keep PRs small and focused.** Prefer one logical change per PR when possible; split large work into several PRs so each is easier to review, discuss, and merge.
+- **Avoid force-pushing to shared branches.** Do not force-push to the default branch or others’ branches. Force-push only to your own feature branch when necessary (e.g. after a rebase), and only if no one else is building on that branch.
+
+---
+
 ## References
 
 - **12-Factor App** — [https://12factor.net/](https://12factor.net/) (config, dependencies, backing services, build/release/run, processes, port binding, disposability, logs, dev-prod parity)
