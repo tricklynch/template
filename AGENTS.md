@@ -62,6 +62,23 @@ Keep the codebase readable, understandable, and easy to change over time.
 
 ---
 
+## Documentation and diagrams
+
+Create and maintain documentation and diagrams so the system’s structure, decisions, and behavior are clear to humans and agents. Keep docs close to the codebase and easy to update.
+
+- **Place documentation in a `docs` directory.** Put all project documentation (architecture, ADRs, runbooks, API notes) under a root-level `docs` folder so it has a single, predictable location.
+- **Use Markdown for documentation.** Write prose and structured docs in Markdown (`.md`) for readability in editors, version control, and common documentation platforms.
+- **Use Mermaid for diagrams.** Create diagrams in Mermaid syntax (e.g. in `.md` files or `.mmd` files) so they are text-based, versionable, and render in many tools (GitHub, GitLab, IDEs, static site generators).
+- **Prefer C4 model for architecture diagrams.** Use the C4 model to describe the system at different levels of detail:
+  - **Level 1 (System Context):** system and its users and external systems.
+  - **Level 2 (Container):** high-level building blocks (applications, data stores).
+  - **Level 3 (Component):** components inside a container where useful.
+  - **Level 4 (Code):** only when it adds real value (e.g. for critical modules).
+- Add diagrams when they clarify structure or flow (e.g. architecture, deployment, or key workflows); avoid diagrams that duplicate what the code or a short description already makes obvious.
+- Keep diagrams and docs in sync with the code; update them when making significant structural or behavioral changes.
+
+---
+
 ## Reliability
 
 Design for graceful failure and recovery so the system degrades predictably.
@@ -151,3 +168,4 @@ When carrying out coding or change tasks, follow these workflow steps so work is
 - **W3C WAI — WCAG 2.x Quick Reference** — [https://www.w3.org/WAI/WCAG21/quickref/](https://www.w3.org/WAI/WCAG21/quickref/)
 - **The A11Y Project — Checklist** — [https://www.a11yproject.com/checklist/](https://www.a11yproject.com/checklist/)
 - **WebAIM** — Articles and techniques (semantic structure, alt text, keyboard, forms) — [https://webaim.org/articles/](https://webaim.org/articles/)
+- **C4 model** — Model for visualising software architecture (Context, Container, Component, Code) — [https://c4model.com/](https://c4model.com/)
