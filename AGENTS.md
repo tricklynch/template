@@ -73,8 +73,8 @@ Create and maintain documentation and diagrams so the system’s structure, deci
   - **Level 1 (System Context):** system and its users and external systems.
   - **Level 2 (Container):** high-level building blocks (applications, data stores).
   - **Level 3 (Component):** components inside a container where useful.
-  - **Level 4 (Code):** only when it adds real value (e.g. for critical modules).
-- Add diagrams when they clarify structure or flow (e.g. architecture, deployment, or key workflows); avoid diagrams that duplicate what the code or a short description already makes obvious.
+  - **Level 4 (Code):** Use only when it adds real value—for example, for critical modules.
+- Add diagrams when they clarify structure or flow (e.g. architecture, deployment, or key workflows); avoid diagrams that duplicate what the code or a brief description already makes obvious.
 - Keep diagrams and docs in sync with the code; update them when making significant structural or behavioral changes.
 
 ---
