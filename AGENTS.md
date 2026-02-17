@@ -62,6 +62,23 @@ Keep the codebase readable, understandable, and easy to change over time.
 
 ---
 
+## Documentation and diagrams
+
+Create and maintain documentation and diagrams so the system’s structure, decisions, and behavior are clear to humans and agents. Keep docs close to the codebase and easy to update.
+
+- **Place documentation in a `docs` directory.** Put all project documentation (architecture, ADRs, runbooks, API notes) under a root-level `docs` folder so it has a single, predictable location.
+- **Use Markdown for documentation.** Write prose and structured docs in Markdown (`.md`) for readability in editors, version control, and common documentation platforms.
+- **Use Mermaid for diagrams.** Create diagrams in Mermaid syntax (e.g. in `.md` files or `.mmd` files) so they are text-based, versionable, and render in many tools (GitHub, GitLab, IDEs, static site generators).
+- **Prefer C4 model for architecture diagrams.** Use the C4 model to describe the system at different levels of detail:
+  - **Level 1 (System Context):** system and its users and external systems.
+  - **Level 2 (Container):** high-level building blocks (applications, data stores).
+  - **Level 3 (Component):** components inside a container where useful.
+  - **Level 4 (Code):** Use only when it adds real value—for example, for critical modules.
+- Add diagrams when they clarify structure or flow (e.g. architecture, deployment, or key workflows); avoid diagrams that duplicate what the code or a brief description already makes obvious.
+- Keep diagrams and docs in sync with the code; update them when making significant structural or behavioral changes.
+
+---
+
 ## Reliability
 
 Design for graceful failure and recovery so the system degrades predictably.
@@ -131,6 +148,7 @@ When carrying out coding or change tasks, follow these workflow steps so work is
 - **Use a pull request (PR) for changes.** Do not merge directly to the main/default branch. Open a branch, make changes, and propose them via a PR so they can be reviewed and integrated in a controlled way.
 - **Commit early and often.** Make small, logical commits with clear messages (what changed and why). This keeps history readable and makes it easier to revert or bisect if needed.
 - **Push changes regularly.** Push your branch to the remote after meaningful commits so work is backed up, visible to others, and ready for CI and review. Do not leave large amounts of unpushed work on a single branch.
+- **Open a draft PR after first pushing a branch.** As soon as the branch is pushed, open a pull request in draft state so the work is visible, CI can run, and reviewers can follow progress; mark it ready for review when the change is complete.
 - **Run tests and linter before pushing.** Run the project’s test suite and any lint/format checks locally so the branch is in a passing state before CI runs and before requesting review.
 - **Keep the branch up to date with the target.** Before opening or updating a PR, rebase or merge from the default branch (e.g. `main`) so the branch is current and merge conflicts are minimized.
 - **Use a descriptive branch name.** Name branches so their purpose is clear (e.g. `feature/add-login`, `fix/typo-in-readme`, `docs/update-api`) to make history and PR lists easier to scan.
@@ -151,3 +169,4 @@ When carrying out coding or change tasks, follow these workflow steps so work is
 - **W3C WAI — WCAG 2.x Quick Reference** — [https://www.w3.org/WAI/WCAG21/quickref/](https://www.w3.org/WAI/WCAG21/quickref/)
 - **The A11Y Project — Checklist** — [https://www.a11yproject.com/checklist/](https://www.a11yproject.com/checklist/)
 - **WebAIM** — Articles and techniques (semantic structure, alt text, keyboard, forms) — [https://webaim.org/articles/](https://webaim.org/articles/)
+- **C4 model** — Model for visualising software architecture (Context, Container, Component, Code) — [https://c4model.com/](https://c4model.com/)
