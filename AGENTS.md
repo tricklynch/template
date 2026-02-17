@@ -148,6 +148,7 @@ When carrying out coding or change tasks, follow these workflow steps so work is
 - **Use a pull request (PR) for changes.** Do not merge directly to the main/default branch. Open a branch, make changes, and propose them via a PR so they can be reviewed and integrated in a controlled way.
 - **Commit early and often.** Make small, logical commits with clear messages (what changed and why). This keeps history readable and makes it easier to revert or bisect if needed.
 - **Push changes regularly.** Push your branch to the remote after meaningful commits so work is backed up, visible to others, and ready for CI and review. Do not leave large amounts of unpushed work on a single branch.
+- **Open a draft PR after first pushing a branch.** As soon as the branch is pushed, open a pull request in draft state so the work is visible, CI can run, and reviewers can follow progress; mark it ready for review when the change is complete.
 - **Run tests and linter before pushing.** Run the project’s test suite and any lint/format checks locally so the branch is in a passing state before CI runs and before requesting review.
 - **Keep the branch up to date with the target.** Before opening or updating a PR, rebase or merge from the default branch (e.g. `main`) so the branch is current and merge conflicts are minimized.
 - **Use a descriptive branch name.** Name branches so their purpose is clear (e.g. `feature/add-login`, `fix/typo-in-readme`, `docs/update-api`) to make history and PR lists easier to scan.
