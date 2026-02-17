@@ -9,10 +9,18 @@ This document gives AI agents and developers shared guidance for this project. F
 Minimize risk from vulnerabilities and misuse. Security is a baseline, not an afterthought.
 
 - Never commit secrets, API keys, or credentials to the repository; use environment variables or a secrets manager. [12-Factor: Config]
-- Validate and sanitize all user input; assume input is untrusted. [OWASP]
+- Validate and sanitize all user input; assume input is untrusted. Enforce validation at a trusted service layer; do not rely on client-side validation alone. [OWASP; ASVS V2.2]
 - Apply the principle of least privilege for permissions, accounts, and network access. [OWASP]
 - Keep dependencies updated and address known vulnerabilities promptly. [OWASP]
-- Use parameterized queries or prepared statements; never concatenate user input into SQL or shell commands. [OWASP]
+- Use parameterized queries or prepared statements; never concatenate user input into SQL or shell commands. Protect against OS command injection via parameterized calls or safe encoding. [OWASP; ASVS V1.2]
+- Encode output for the correct context (HTML, URL, JavaScript, headers) so structure cannot be changed by untrusted data; decode input to a canonical form only once, before validation. [ASVS V1.1, V1.2]
+- Sanitize untrusted HTML (e.g. from WYSIWYG editors) with a secure library; avoid eval() or dynamic code execution with user input. [ASVS V1.3]
+- Protect against SSRF: validate URLs and targets against an allowlist of protocols, domains, and ports before calling external services. [ASVS V1.3]
+- Configure XML parsers restrictively; disable external entity resolution to prevent XXE. Use safe deserialization (allowlists or restricted types) for untrusted data. [ASVS V1.5]
+- Use secure cookie attributes: Secure, HttpOnly for session tokens, and SameSite as appropriate; prefer __Host- or __Secure- prefix where applicable. [ASVS V3.3]
+- Enforce HTTPS (e.g. HSTS), set Content-Type correctly on responses, and use anti-CSRF tokens or safe methods (POST/PUT/PATCH/DELETE) for state-changing requests. [ASVS V3.4, V3.5; V4.1]
+- Validate file uploads: limit size, check extension and content (e.g. magic bytes), store outside web root with safe names, and serve with safe Content-Disposition/headers. [ASVS V5]
+- Do not expose sensitive data or stack traces to clients; log security-relevant events (auth failures, access denials) for auditing. [ASVS V16]
 - Treat backing services (databases, caches, queues) as attached resources with clear contracts. [12-Factor: Backing services]
 
 ---
@@ -120,6 +128,7 @@ Design and build so people with disabilities and situational limitations can per
 
 - **12-Factor App** — [https://12factor.net/](https://12factor.net/) (config, dependencies, backing services, build/release/run, processes, port binding, disposability, logs, dev-prod parity)
 - **OWASP** — OWASP Secure Coding Practices / Developer Guide — [https://owasp.org/www-project-developer-guide/](https://owasp.org/www-project-developer-guide/)
+- **OWASP ASVS** — Application Security Verification Standard (v5.0) — [https://owasp.org/www-project-application-security-verification-standard/](https://owasp.org/www-project-application-security-verification-standard/) — requirements for secure development and verification; [GitHub (v5.0.0)](https://github.com/OWASP/ASVS/tree/v5.0.0)
 - **Martin Fowler — Practical Test Pyramid** — [https://martinfowler.com/articles/practical-test-pyramid.html](https://martinfowler.com/articles/practical-test-pyramid.html)
 - **Google Engineering Practices** — Code review (author and reviewer guides) — [https://google.github.io/eng-practices/](https://google.github.io/eng-practices/)
 - **W3C WAI — Introduction to Web Accessibility** — [https://www.w3.org/WAI/fundamentals/accessibility-intro/](https://www.w3.org/WAI/fundamentals/accessibility-intro/)
