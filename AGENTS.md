@@ -1,0 +1,128 @@
+# AGENTS.md — Development Best Practices
+
+This document gives AI agents and developers shared guidance for this project. Follow these practices when writing, reviewing, or modifying code. Each section is grounded in well-established industry sources; see [References](#references) for links.
+
+---
+
+## Security
+
+Minimize risk from vulnerabilities and misuse. Security is a baseline, not an afterthought.
+
+- Never commit secrets, API keys, or credentials to the repository; use environment variables or a secrets manager. [12-Factor: Config]
+- Validate and sanitize all user input; assume input is untrusted. [OWASP]
+- Apply the principle of least privilege for permissions, accounts, and network access. [OWASP]
+- Keep dependencies updated and address known vulnerabilities promptly. [OWASP]
+- Use parameterized queries or prepared statements; never concatenate user input into SQL or shell commands. [OWASP]
+- Treat backing services (databases, caches, queues) as attached resources with clear contracts. [12-Factor: Backing services]
+
+---
+
+## Quality
+
+Ensure correctness and confidence to change code through testing and review.
+
+- Prefer the test pyramid: many fast unit tests, some integration tests, few end-to-end tests. [Fowler: Practical Test Pyramid]
+- Test observable behavior, not implementation details; avoid tests that break on refactors. [Fowler: Practical Test Pyramid]
+- Structure tests as Arrange, Act, Assert (or Given, When, Then). [Fowler: Practical Test Pyramid]
+- Do not test trivial code (e.g. simple getters/setters); focus on non-trivial paths and edge cases. [Fowler: Practical Test Pyramid]
+- Require meaningful code review for all changes; review for design, correctness, complexity, tests, and style. [Google: Code Review]
+- Keep changes small and self-contained so they are easier to review and reason about. [Google: Code Review]
+
+---
+
+## Observability
+
+Make the system understandable and debuggable in production.
+
+- Emit structured logs (e.g. JSON) with consistent fields; avoid free-form prose only. [12-Factor: Logs]
+- Treat logs as event streams; do not write to or manage log files from application code. [12-Factor: Logs]
+- Expose health and readiness endpoints for orchestration and load balancers.
+- Use correlation IDs or trace IDs across services where applicable for request tracing.
+- Prefer metrics and alerts for critical flows rather than relying only on log inspection.
+
+---
+
+## Maintainability
+
+Keep the codebase readable, understandable, and easy to change over time.
+
+- Use clear, consistent naming; prefer names that reveal intent. [Clean Code]
+- Favor single responsibility: one clear reason for a module or function to change.
+- Document the "why" (decisions, constraints) more than the "what"; avoid redundant comments.
+- Declare and isolate dependencies explicitly; avoid implicit or global dependency injection. [12-Factor: Dependencies]
+- Prefer domain logic in the domain model over anemic data structures with logic only in services. [Fowler: Test Pyramid sample]
+
+---
+
+## Reliability
+
+Design for graceful failure and recovery so the system degrades predictably.
+
+- Support graceful shutdown: finish in-flight work, close connections, then exit. [12-Factor: Disposability]
+- Aim for fast startup so processes can be spun up quickly and scaled horizontally. [12-Factor: Disposability]
+- Prefer stateless processes so any instance can serve any request. [12-Factor: Processes]
+- Design critical operations to be idempotent where possible to allow safe retries.
+- Define explicit error boundaries and failure modes; avoid silent failures or unhandled exceptions.
+
+---
+
+## Operability
+
+Make deployment and operations predictable and repeatable.
+
+- Store configuration in the environment; do not embed environment-specific values in code. [12-Factor: Config]
+- Strictly separate build, release, and run stages; do not mutate code at runtime. [12-Factor: Build, release, run]
+- One codebase tracked in version control, many deploys (e.g. staging, production). [12-Factor: Codebase]
+- Keep development, staging, and production as similar as possible to reduce deployment surprises. [12-Factor: Dev/prod parity]
+- Export services via port binding; the app is self-contained and binds to a port to serve traffic. [12-Factor: Port binding]
+
+---
+
+## Collaboration
+
+Make code review and version history effective for the whole team.
+
+- Prefer small, self-contained changes (pull requests / changelists) with a clear purpose. [Google: Code Review]
+- Write clear commit messages and PR descriptions: what changed and why. [Google: CL Author Guide]
+- Review for design, correctness, complexity, tests, naming, and style; give constructive feedback. [Google: Code Reviewer Guide]
+- Respond to review feedback professionally; iterate until the change meets the team bar. [Google: Handling Pushback]
+
+---
+
+## Performance
+
+Avoid obvious bottlenecks and unnecessary work; measure before optimizing.
+
+- Avoid N+1 query patterns; use batching, joins, or bulk APIs where appropriate.
+- Use asynchronous or non-blocking I/O for I/O-bound work to avoid blocking threads.
+- Introduce caching only where there is a clear benefit; define invalidation and consistency rules.
+- Profile or measure before major optimizations; avoid premature optimization.
+
+---
+
+## Accessibility
+
+Design and build so people with disabilities and situational limitations can perceive, operate, and understand the product. Accessibility benefits everyone and is required by law in many contexts. [W3C WAI: Introduction]
+
+- **Perceivable:** Provide text alternatives for non-text content (e.g. meaningful `alt` for images); use null/empty alt for purely decorative images. [WCAG 1.1.1]
+- **Perceivable:** Do not convey information by color alone; use icons, text, or pattern in addition. [WCAG 1.4.1]
+- **Operable:** Make all functionality available from the keyboard; ensure visible focus styles and a logical focus order. [W3C WAI: Keyboard; WCAG 2.1.1, 2.4.7]
+- **Operable:** Do not disable viewport zoom; support text resizing (e.g. to 200%). [WCAG 1.4.4; A11Y Project]
+- **Understandable:** Use plain language where possible; ensure link and button text is unique and descriptive (avoid "click here"). [A11Y Project: Content]
+- **Understandable:** Associate form inputs with labels; surface errors clearly and associate them with the relevant field. [WebAIM: Forms; A11Y Project: Forms]
+- **Robust:** Use valid, semantic HTML; use landmark elements and a logical heading hierarchy (one `h1` per page, no skipped levels). [WebAIM: Semantic Structure; A11Y Project: Headings]
+- **Media:** Provide captions for video and transcripts for audio; avoid autoplay and flashing content that can trigger seizures. [W3C WAI: Transcripts; WCAG 1.2.2, 2.3.1]
+- Evaluate accessibility early and throughout development; combine automated checks with knowledgeable human evaluation. [W3C WAI: Evaluating Accessibility]
+
+---
+
+## References
+
+- **12-Factor App** — [https://12factor.net/](https://12factor.net/) (config, dependencies, backing services, build/release/run, processes, port binding, disposability, logs, dev-prod parity)
+- **OWASP** — OWASP Secure Coding Practices / Developer Guide — [https://owasp.org/www-project-developer-guide/](https://owasp.org/www-project-developer-guide/)
+- **Martin Fowler — Practical Test Pyramid** — [https://martinfowler.com/articles/practical-test-pyramid.html](https://martinfowler.com/articles/practical-test-pyramid.html)
+- **Google Engineering Practices** — Code review (author and reviewer guides) — [https://google.github.io/eng-practices/](https://google.github.io/eng-practices/)
+- **W3C WAI — Introduction to Web Accessibility** — [https://www.w3.org/WAI/fundamentals/accessibility-intro/](https://www.w3.org/WAI/fundamentals/accessibility-intro/)
+- **W3C WAI — WCAG 2.x Quick Reference** — [https://www.w3.org/WAI/WCAG21/quickref/](https://www.w3.org/WAI/WCAG21/quickref/)
+- **The A11Y Project — Checklist** — [https://www.a11yproject.com/checklist/](https://www.a11yproject.com/checklist/)
+- **WebAIM** — Articles and techniques (semantic structure, alt text, keyboard, forms) — [https://webaim.org/articles/](https://webaim.org/articles/)
